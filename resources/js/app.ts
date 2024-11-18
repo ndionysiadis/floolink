@@ -4,7 +4,8 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, DefineComponent, h } from 'vue';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist";
+import PhosphorIcons from "@phosphor-icons/vue";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -19,9 +20,16 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(PhosphorIcons)
             .mount(el);
     },
     progress: {
         color: '#4B5563',
     },
-});
+})
+    .then(() => {
+        console.log("FlooLink app initialized successfully.");
+    })
+    .catch((error) => {
+        console.error("Failed to initialize FlooLink app:", error);
+    });

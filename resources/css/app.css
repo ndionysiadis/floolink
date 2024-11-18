@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scrollbar {
+    @apply scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-100;
+}
