@@ -10,7 +10,7 @@ withDefaults(
     }>(),
     {
         color: 'rgba(255, 255, 255, 0.1)',
-        size: 300
+        size: 200
     }
 )
 
@@ -22,7 +22,7 @@ const { x, y } = useMouse({ target: spotlightCardRef, type: extractor })
 
 <template>
     <div
-        class="rounded-3xl border border-neutral-950/10 dark:border-white/10 bg-white/[.012] p-2"
+        class="rounded-xl border border-gray-50/10 bg-gray-900/10 p-2"
         ref="spotlightCardRef"
     >
         <div
@@ -32,7 +32,7 @@ const { x, y } = useMouse({ target: spotlightCardRef, type: extractor })
         '--spotlight-color-stops': `${color}, transparent`,
         '--spotlight-size': `${size}px`
       }"
-            class="spotlight-card before:content-[''] before:h-full before:w-full before:absolute before:top-0 before:left-0 relative transform-gpu overflow-hidden rounded-2xl border border-neutral-950/10 dark:border-white/10 bg-neutral-950/[.012] dark:bg-white/5 shadow-sm dark:shadow-md shadow-neutral-50/50 dark:shadow-neutral-950/50"
+            class="spotlight-card before:content-[''] before:h-full before:w-full before:absolute before:top-0 before:left-0 relative transform-gpu overflow-hidden rounded-lg border border-gray-50/10 bg-gray-950/20 shadow-sm shadow-neutral-950/50"
         >
             <slot />
         </div>
