@@ -12,6 +12,7 @@
         "noEmit": true,
         "skipLibCheck": true,
         "allowImportingTsExtensions": true,
+        "experimentalResolveStyleCssVariables": true,
         "paths": {
             "@/*": [
                 "./resources/js/*"

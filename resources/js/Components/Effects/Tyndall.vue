@@ -11,7 +11,7 @@ const props = withDefaults(
     }
 )
 
-const { streakColor } = toRefs(props)
+const {streakColor} = toRefs(props)
 
 const wrapperStyle = computed(() => {
     return {
@@ -53,9 +53,9 @@ const wrapperStyle = computed(() => {
             class="particles-effect flex-none h-screen absolute left-0 top-0 right-0"
             v-if="$slots.particles"
         >
-            <slot name="particles" />
+            <slot name="particles"/>
         </div>
-        <slot />
+        <slot/>
     </div>
 </template>
 
