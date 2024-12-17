@@ -6,11 +6,12 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, DefineComponent, h } from 'vue';
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist";
 import PhosphorIcons from "@phosphor-icons/vue";
+import {MotionPlugin} from "@vueuse/motion";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${appName} - ${title}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
@@ -21,6 +22,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(PhosphorIcons)
+            .use(MotionPlugin)
             .mount(el);
     },
     progress: {
