@@ -5,7 +5,7 @@ import Tyndall from "@/Components/Effects/Tyndall.vue";
 import Particles from "@/Components/Effects/Particles.vue";
 import GeneratedText from "@/Components/Effects/GeneratedText.vue";
 import TextLink from "@/Components/Texts/TextLink.vue";
-import {PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen} from "@phosphor-icons/vue";
+import {PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen, PhSparkle} from "@phosphor-icons/vue";
 import LaravelLogo from "@/Components/Logos/LaravelLogo.vue";
 import TailwindLogo from "@/Components/Logos/TailwindLogo.vue";
 import InertiaLogo from "@/Components/Logos/InertiaLogo.vue";
@@ -14,6 +14,9 @@ import GlareCard from "@/Components/Cards/GlareCard.vue";
 import Card from "@/Components/Cards/Card.vue";
 import Footer from "@/Components/Footer.vue";
 import ShimmerText from "@/Components/Texts/ShimmerText.vue";
+import LinkInput from "@/Components/LinkInput.vue";
+import {ref} from "vue";
+import GenerativeButton from "@/Components/GenerativeButton.vue";
 
 const title = "your links in disguise";
 </script>
@@ -21,7 +24,7 @@ const title = "your links in disguise";
 <template>
     <Head :title="title"/>
 
-    <Tyndall streak-color="#fff">
+    <Tyndall streak-color="#fff" class="flex flex-col text-center">
         <Particles
             :density="500"
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"
@@ -48,7 +51,7 @@ const title = "your links in disguise";
                     words="Teleport your links securely through the magic of Floo network"
                     class="text-4xl font-bold font-title"
                 />
-                <div class="text-lg font-regular text-center">
+                <div class="text-lg font-regular">
                     Inspired by the
                     <TextLink url="https://harrypotter.fandom.com/wiki/Floo_Network">magical
                         fireplaces
@@ -62,12 +65,22 @@ const title = "your links in disguise";
                 </div>
             </div>
 
+            <LinkInput
+                label="Paste your link"
+                id="link"
+                type="url"
+                :required="true"
+                :autofocus="true"
+            >
+                <PhSparkle :size="22" color="#4338CA" weight="fill" />
+            </LinkInput>
+
             <div class="flex flex-col items-center gap-4">
                 <div class="text-4xl font-bold font-title">
                     The spells you can cast
                 </div>
 
-                <div class="grid grid-cols-2 grid-rows-2 gap-4">
+                <div class="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
                     <Card>
                         <div class="p-4">
                             <div class="flex items-center gap-2">
@@ -120,7 +133,7 @@ const title = "your links in disguise";
                     Built with all the modern technologies
                 </div>
 
-                <div class="flex items-center gap-4">
+                <div class="flex flex-col md:flex-row items-center gap-4">
                     <GlareCard
                         title="Vue.js"
                         :width="200"
