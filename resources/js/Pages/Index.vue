@@ -4,7 +4,7 @@ import ApplicationLogo from "@/Components/Logos/ApplicationLogo.vue";
 import Tyndall from "@/Components/Effects/Tyndall.vue";
 import Particles from "@/Components/Effects/Particles.vue";
 import GeneratedText from "@/Components/Effects/GeneratedText.vue";
-import TextLink from "@/Components/TextLink.vue";
+import TextLink from "@/Components/Texts/TextLink.vue";
 import {PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen} from "@phosphor-icons/vue";
 import LaravelLogo from "@/Components/Logos/LaravelLogo.vue";
 import TailwindLogo from "@/Components/Logos/TailwindLogo.vue";
@@ -13,6 +13,7 @@ import VueLogo from "@/Components/Logos/VueLogo.vue";
 import GlareCard from "@/Components/Cards/GlareCard.vue";
 import Card from "@/Components/Cards/Card.vue";
 import Footer from "@/Components/Footer.vue";
+import ShimmerText from "@/Components/Texts/ShimmerText.vue";
 
 const title = "your links in disguise";
 </script>
@@ -25,19 +26,22 @@ const title = "your links in disguise";
             :density="500"
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"
         />
-
         <div
-            class="flex flex-col items-center justify-start gap-32 pb-6 min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
+            class="flex flex-col items-center justify-start gap-24 pb-6 min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
 
             <div
-                class="flex flex-col items-center justify-center mt-16 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-content motion-preset-focus motion-duration-2000 z-10">
+                class="flex flex-col items-center justify-center mt-16 fill-indigo-50 motion-preset-focus motion-duration-2000 z-10">
                 <ApplicationLogo class="w-56"/>
             </div>
 
             <div class="flex flex-col items-center w-7/12 gap-4">
+
                 <div
-                    class="text-md font-regular tracking-widest bg-gradient-to-b from-cyan-400 to-blue-600 bg-clip-text fill-inherit text-transparent">
-                    Generate Encrypted Links
+                    class="rounded-full px-4 py-1 border border-gray-50/10 bg-gray-950"
+                >
+                    <ShimmerText>
+                        Generate Encrypted Links
+                    </ShimmerText>
                 </div>
 
                 <GeneratedText
