@@ -109,7 +109,7 @@ function handleImageLoad() {
             :href="url"
             target="_blank"
             rel="noopener noreferrer"
-            :class="['font-semibold bg-gradient-to-b from-pink-300 to-rose-400 bg-clip-text text-transparent hover:text-white transition ease-in-out', props.linkClass]"
+            :class="['font-semibold bg-gradient-to-b from-indigo-400 to-indigo-600 bg-clip-text text-transparent hover:text-white transition ease-in-out', props.linkClass]"
             @mousemove="handleMouseMove"
             @mouseenter="showPreview"
             @mouseleave="hidePreview"
