@@ -14,9 +14,8 @@ import GlareCard from "@/Components/Cards/GlareCard.vue";
 import Card from "@/Components/Cards/Card.vue";
 import Footer from "@/Components/Footer.vue";
 import ShimmerText from "@/Components/Texts/ShimmerText.vue";
-import LinkInput from "@/Components/LinkInput.vue";
-import {ref} from "vue";
-import GenerativeButton from "@/Components/GenerativeButton.vue";
+import LinkInput from "@/Components/Inputs/LinkInput.vue";
+import GenerativeButton from "@/Components/Buttons/GenerativeButton.vue";
 
 const title = "your links in disguise";
 </script>
@@ -30,15 +29,13 @@ const title = "your links in disguise";
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"
         />
         <div
-            class="flex flex-col items-center justify-start gap-24 pb-6 min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
+            class="flex flex-col items-center justify-start gap-16 pb-6 min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
 
-            <div
-                class="flex flex-col items-center justify-center mt-16 fill-indigo-50 motion-preset-focus motion-duration-2000 z-10">
+            <div class="flex flex-col items-center justify-center mt-16 fill-indigo-50 motion-preset-focus motion-duration-2000 z-10">
                 <ApplicationLogo class="w-56"/>
             </div>
 
             <div class="flex flex-col items-center w-7/12 gap-4">
-
                 <div
                     class="rounded-full px-4 py-1 border border-gray-50/10 bg-gray-950"
                 >
@@ -51,29 +48,37 @@ const title = "your links in disguise";
                     words="Teleport your links securely through the magic of Floo network"
                     class="text-4xl font-bold font-title"
                 />
-                <div class="text-lg font-regular">
-                    Inspired by the
-                    <TextLink url="https://harrypotter.fandom.com/wiki/Floo_Network">magical
-                        fireplaces
-                    </TextLink>
-                    in Harry Potter that transport wizards safely, Floolink teleports your URLs using advanced
-                    <TextLink url="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256 encryption
-                    </TextLink>
-                    ,
-                    transforming them into protected links ready to share. Make your links disappear from
-                    prying eyes and reappear exactly where you need them – safe, secure, and magical.
-                </div>
             </div>
 
-            <LinkInput
-                label="Paste your link"
-                id="link"
-                type="url"
-                :required="true"
-                :autofocus="true"
-            >
-                <PhSparkle :size="22" color="#4338CA" weight="fill" />
-            </LinkInput>
+           <div class="flex flex-col items-center gap-4">
+               <div class="flex items-center justify-center gap-2 w-full">
+                   <LinkInput
+                       label="Paste your link to encrypt or decrypt"
+                       id="link"
+                       type="url"
+                       :required="true"
+                       :autofocus="true"
+                   />
+
+                   <GenerativeButton class="flex items-center gap-2">
+                       <PhSparkle width="20" weight="fill" class="-ml-2"/>
+                       Generate
+                   </GenerativeButton>
+               </div>
+
+               <div class="text-md font-regular w-8/12">
+                   Inspired by the
+                   <TextLink url="https://harrypotter.fandom.com/wiki/Floo_Network">magical
+                       fireplaces
+                   </TextLink>
+                   in Harry Potter that transport wizards safely, Floolink teleports your URLs using advanced
+                   <TextLink url="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256 encryption
+                   </TextLink>
+                   ,
+                   transforming them into protected links ready to share. Make your links disappear from
+                   prying eyes and reappear exactly where you need them – safe, secure, and magical.
+               </div>
+           </div>
 
             <div class="flex flex-col items-center gap-4">
                 <div class="text-4xl font-bold font-title">

@@ -52,7 +52,7 @@ function updateValue(event: Event) {
 
         <span
             v-if="$slots.default"
-            class="absolute inset-y-0 right-0 flex items-center rounded-md bg-gray-950 px-3 text-gray-400"
+            class="absolute inset-y-0 right-0 flex -mr-3"
         >
             <slot />
         </span>

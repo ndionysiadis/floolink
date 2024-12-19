@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
 <template>
     <button
         :class="[
-            'group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-3 text-indigo-50 [background:var(--bg)] [border-radius:var(--radius)]',
+            'group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-2 text-indigo-50 [background:var(--bg)] [border-radius:var(--radius)]',
             'transform-gpu transition-transform duration-300 ease-in-out active:translate-y-px',
             props.class,
         ]"
