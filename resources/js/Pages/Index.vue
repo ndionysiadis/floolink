@@ -16,14 +16,69 @@ import Footer from "@/Components/Footer.vue";
 import ShimmerText from "@/Components/Texts/ShimmerText.vue";
 import LinkInput from "@/Components/Inputs/LinkInput.vue";
 import GenerativeButton from "@/Components/Buttons/GenerativeButton.vue";
+import { useHead } from "@vueuse/head";
 
-const title = "your links in disguise";
+const title = "Your Links in Disguise";
+
+useHead({
+    title: "FlooLink — Your Links in Disguise",
+    meta: [
+        {
+            name: "description",
+            content:
+                "Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.",
+        },
+        {
+            name: "keywords",
+            content:
+                "AES 256 encryption link generator, Encrypted URL sharing, Secure link encryption app, Decrypt protected links online, URL encryption and decryption tool, Privacy-focused link sharing, Secure URL generator with encryption, Temporary secure link generator, Expiring encrypted link sharing, Share URLs securely online, Encrypted links with expiration, Set link expiration for secure sharing, Time-sensitive encrypted links, Self-destructing encrypted links, Privacy-conscious file sharing, Secure data sharing for professionals, Encrypted link sharing for businesses, Built with VILT stack (Vue.js, Inertia.js, Laravel, Tailwind CSS), Advanced encryption link tool, Latest secure link sharing app.",
+        },
+        { name: "robots", content: "index, follow" },
+
+        {
+            property: "og:title",
+            content: "FlooLink — Your Links in Disguise",
+        },
+        {
+            property: "og:description",
+            content:
+                "Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.",
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://floo.link" },
+        {
+            property: "og:image",
+            content: "http://floo.link/images/floolink.jpg",
+        },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+
+        { name: "twitter:card", content: "summary_large_image" },
+        {
+            name: "twitter:title",
+            content: "FlooLink — Your Links in Disguise",
+        },
+        {
+            name: "twitter:description",
+            content:
+                "Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.",
+        },
+        {
+            name: "twitter:image",
+            content: "http://floo.link/images/floolink.jpg",
+        },
+
+        { name: "author", content: "FlooLink — Your Links in Disguise" },
+        { name: "theme-color", content: "#111827" },
+    ],
+    link: [{ rel: "canonical", href: "https://floo.link" }],
+});
 </script>
 
 <template>
     <Head :title="title"/>
 
-    <Tyndall streak-color="#fff" class="flex flex-col text-center">
+    <Tyndall streak-color="#fff" class="flex flex-col text-center scrollbar">
         <Particles
             :density="500"
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"
@@ -62,7 +117,7 @@ const title = "your links in disguise";
 
                    <GenerativeButton class="flex items-center gap-2">
                        <PhSparkle width="20" weight="fill" class="-ml-2"/>
-                       Generate
+                       Make Magic
                    </GenerativeButton>
                </div>
 

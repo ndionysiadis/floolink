@@ -7,11 +7,14 @@ import { createApp, DefineComponent, h } from 'vue';
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist";
 import PhosphorIcons from "@phosphor-icons/vue";
 import {MotionPlugin} from "@vueuse/motion";
+import { createHead } from "@vueuse/head";
+
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const head = createHead();
 
 createInertiaApp({
-    title: (title) => `${appName} - ${title}`,
+    title: (title) => `${appName} — ${title}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
@@ -23,6 +26,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(PhosphorIcons)
             .use(MotionPlugin)
+            .use(head)
             .mount(el);
     },
     progress: {
