@@ -1,12 +1,19 @@
 <?php
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', IndexController::class)->name('index');
+
+Route::controller(LinkController::class)->group(function () {
+    Route::post('/links', 'store')->name('links.store');
+    Route::get('/{slug}', 'redirect')->name('links.redirect');
+    Route::delete('/links/{link}', 'destroy')->name('links.destroy');
+});
 
 //Route::get('/', function () {
 //    return Inertia::render('Welcome', [

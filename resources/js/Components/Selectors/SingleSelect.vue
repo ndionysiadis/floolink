@@ -3,16 +3,14 @@ const props = withDefaults(
     defineProps<{
         modelValue?: string | null;
         label: string;
-        error?: string;
+        error?: string | null | undefined;
         id: string;
-        type: string;
-        autofocus: boolean;
-        required: boolean;
+        options: { value: string; label: string }[];
+        required?: boolean;
         disabled?: boolean;
     }>(),
     {
         label: "",
-        autofocus: false,
         required: false,
         disabled: false,
     },
@@ -21,8 +19,8 @@ const props = withDefaults(
 const emit = defineEmits(["update:modelValue"]);
 
 function updateValue(event: Event) {
-    const input = event.target as HTMLInputElement;
-    emit("update:modelValue", input.value);
+    const select = event.target as HTMLSelectElement;
+    emit("update:modelValue", select.value);
 }
 </script>
 
@@ -32,29 +30,30 @@ function updateValue(event: Event) {
     >
         <label :for="props.id" class="sr-only">{{ props.label }}</label>
 
-        <input
+        <select
             :id="props.id"
-            :type="props.type"
-            :placeholder="props.label"
-            :value="props.modelValue"
-            @input="updateValue"
             :required="props.required"
-            :autofocus="props.autofocus"
             :disabled="props.disabled"
+            :value="props.modelValue"
+            @change="updateValue"
             class="peer block w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
-        />
+        >
+            <option value="" disabled selected class="text-gray-400">
+                {{ props.label }}
+            </option>
+            <option
+                v-for="option in props.options"
+                :key="option.value"
+                :value="option.value"
+            >
+                {{ option.label }}
+            </option>
+        </select>
 
         <span
             class="pointer-events-none absolute rounded-md start-2.5 top-0 -translate-y-1/2 bg-gray-900 px-2 py-0.5 text-xs text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
         >
             {{ props.label }}
-        </span>
-
-        <span
-            v-if="$slots.default"
-            class="absolute inset-y-0 right-0 flex -mr-3"
-        >
-            <slot />
         </span>
     </div>
 
@@ -62,3 +61,7 @@ function updateValue(event: Event) {
         {{ props.error }}
     </div>
 </template>
+
+<style scoped>
+
+</style>
