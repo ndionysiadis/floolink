@@ -200,7 +200,7 @@ useHead({
                             :autofocus="false"
                         />
                     </div>
-                    <div v-else>
+                    <div v-else class="flex flex-col gap-4 items-center justify-center w-full">
                         <SingleSelect
                             id="expiration-time"
                             label="Set expiration time"
@@ -236,11 +236,11 @@ useHead({
 
                 <div v-if="generatedLink" class="mt-4">
                     <p class="text-indigo-50">
-                        <strong>Your generated link:</strong>
-                        <TextLink url="generatedLink">{{ generatedLink }}</TextLink>
+                        Your FlooLink:
+                        <TextLink :url="generatedLink">{{ generatedLink }}</TextLink>
                     </p>
                     <p class="text-indigo-50">
-                        <strong>Secret Key:</strong> {{ generatedSecretKey }}
+                        Secret Key: <strong>{{ generatedSecretKey }}</strong>
                     </p>
                 </div>
             </div>
