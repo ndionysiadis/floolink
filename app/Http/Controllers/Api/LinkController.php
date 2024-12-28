@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Repositories\LinkRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class LinkController extends Controller
 {
@@ -25,21 +27,26 @@ class LinkController extends Controller
     public function encrypt(Request $request)
     {
         $validatedData = $request->validate([
-            'url' => 'required|url',
+            'url' => ['required', 'url'],
             'expiration' => [
                 'nullable',
+                Rule::in(['default', 'never', '5', '60', '1440', '10080']),
                 function ($attribute, $value, $fail) {
                     if (!in_array($value, ['default', 'never']) && !is_numeric($value)) {
-                        $fail('The selected expiration is invalid.');
+                        $fail('The expiration value is invalid.');
                     }
                 },
             ],
         ]);
 
+        Log::info('Validated Data:', $validatedData);
+
         $link = LinkRepository::store([
             'original_url' => $validatedData['url'],
-            'expires_in' => $validatedData['expiration'] ?? null,
+            'expires_in' => $validatedData['expiration'] ?? 'default',
         ]);
+
+        Log::info('Stored Link:', $link->toArray());
 
         return response()->json([
             'encrypted_url' => $link->slug,

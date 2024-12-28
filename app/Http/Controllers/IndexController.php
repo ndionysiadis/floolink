@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class IndexController extends Controller

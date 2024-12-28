@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Link extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'self_destruct' => 'boolean',
+        'expires_at' => 'datetime',
+    ];
     protected $fillable = [
         'slug',
         'original_url',
@@ -17,11 +22,6 @@ class Link extends Model
         'clicks',
         'self_destruct',
         'expires_at',
-    ];
-
-    protected $casts = [
-        'self_destruct' => 'boolean',
-        'expires_at' => 'datetime',
     ];
 
     protected $hidden = [

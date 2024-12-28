@@ -65,27 +65,23 @@ async function checkIfSlugExists() {
     }
 }
 async function handleMagic() {
+    const payload: Record<string, any> = {
+        url: urlInput.value,
+    };
+
+    if (selectedExpiration.value === "custom" && customMinutes.value) {
+        payload.expiration = customMinutes.value; // Custom time in minutes
+    } else {
+        payload.expiration = selectedExpiration.value; // Predefined option
+    }
+
+    console.log("Payload sent to API:", payload);
+
     try {
-        const payload: Record<string, any> = {
-            url: urlInput.value,
-        };
-
-        if (selectedExpiration.value === 'custom' && customMinutes.value) {
-            payload.expiration = customMinutes.value; // Send user-defined minutes
-        } else {
-            payload.expiration = selectedExpiration.value; // Send 'default', 'never', etc.
-        }
-
-        const response = await axios.post('/api/encrypt', payload);
-
-        const slug = response.data.encrypted_url; // Get the slug
-        const secretKey = response.data.secret_key; // Assume API sends the key
-
-        // Build full link
-        generatedLink.value = `${window.location.origin}/${slug}`;
-        generatedSecretKey.value = secretKey;
+        const response = await axios.post("/api/encrypt", payload);
+        console.log("Response from API:", response.data);
     } catch (error) {
-        console.error('Error during the magic process:', error);
+        console.error("Error during API call:", error);
     }
 }
 
@@ -145,6 +141,7 @@ useHead({
     ],
     link: [{rel: "canonical", href: "https://floo.link"}],
 });
+
 </script>
 
 <template>
