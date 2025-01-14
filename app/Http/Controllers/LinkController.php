@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Link;
 use App\Repositories\LinkRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LinkController extends Controller
 {
@@ -12,38 +14,39 @@ class LinkController extends Controller
     {
         $validatedData = $request->validate([
             'original_url' => 'required|url',
-            'expires_in' => 'nullable|integer|min:1',
-            'click_limit' => 'nullable|integer|min:1',
-            'self_destruct' => 'nullable|boolean',
+            'expiration_type' => [
+                'required',
+                Rule::in(['default', 'never', '5', '60', '1440', '10080', 'custom']),
+            ],
+            'customMinutes' => [
+                'required_if:expiration_type,custom',
+                'nullable',
+                'integer',
+                'min:1',
+                'max:525600',
+            ],
         ]);
 
-        LinkRepository::store($validatedData);
+        $expirationValue = $validatedData['expiration_type'];
 
-        return response()->json([
-            'message' => 'Link created successfully!',
+        if ($validatedData['expiration_type'] === 'custom' && isset($validatedData['customMinutes'])) {
+            $expirationValue = (string)$validatedData['customMinutes'];
+        }
+
+        LinkRepository::store([
+            'original_url' => $validatedData['url'],
+            'expires_in' => $expirationValue,
         ]);
+
+        return response()->json(['message' => 'Link created successfully!']);
     }
 
-    public function redirect($slug)
+    public function redirect($slug): RedirectResponse
     {
-        $link = Link::where('slug', $slug)->first();
+        $link = Link::where('slug', $slug)->firstOrFail();
 
-        if (!$link) {
-            abort(404, 'Link not found.');
-        }
-
-        if ($link->expires_at && $link->expires_at->isPast()) {
+        if (!LinkRepository::handleAccess($link)) {
             abort(404, 'This link has expired.');
-        }
-
-        if ($link->click_limit && $link->clicks >= $link->click_limit) {
-            abort(404, 'This link is no longer available.');
-        }
-
-        LinkRepository::incrementClick($link);
-
-        if ($link->self_destruct) {
-            LinkRepository::delete($link);
         }
 
         return redirect($link->original_url);

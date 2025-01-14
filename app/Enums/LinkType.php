@@ -7,12 +7,9 @@ enum LinkType: string
     case DEFAULT = 'default';
     case NEVER = 'never';
     case TIMED = 'timed';
-
+    case CUSTOM = 'custom';
     public function shouldSelfDestruct(): bool
     {
-        return match($this) {
-            self::DEFAULT => true,
-            self::NEVER, self::TIMED => false,
-        };
+        return $this === self::DEFAULT;
     }
 }

@@ -17,9 +17,8 @@ return new class extends Migration
             $table->text('original_url');
             $table->text('encrypted_url');
             $table->string('secret_key', 64)->nullable();
-            $table->unsignedInteger('click_limit')->nullable();
             $table->unsignedInteger('clicks')->default(0);
-            $table->boolean('self_destruct')->default(false);
+            $table->string('expiration_type', 64)->default('default');
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });

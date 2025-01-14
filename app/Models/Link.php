@@ -10,7 +10,6 @@ class Link extends Model
     use HasFactory;
 
     protected $casts = [
-        'self_destruct' => 'boolean',
         'expires_at' => 'datetime',
     ];
     protected $fillable = [
@@ -18,10 +17,9 @@ class Link extends Model
         'original_url',
         'encrypted_url',
         'secret_key',
-        'click_limit',
         'clicks',
-        'self_destruct',
         'expires_at',
+        'expiration_type'
     ];
 
     protected $hidden = [

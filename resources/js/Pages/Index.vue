@@ -65,14 +65,17 @@ async function checkIfSlugExists() {
     }
 }
 async function handleMagic() {
-    const payload: Record<string, any> = {
+    const payload: {
+        url: string;
+        expiration_type: string;
+        customMinutes?: number; // Use customMinutes for custom expiration
+    } = {
         url: urlInput.value,
+        expiration_type: selectedExpiration.value,
     };
 
     if (selectedExpiration.value === "custom" && customMinutes.value) {
-        payload.expiration = customMinutes.value; // Custom time in minutes
-    } else {
-        payload.expiration = selectedExpiration.value; // Predefined option
+        payload.customMinutes = customMinutes.value; // Send as customMinutes
     }
 
     console.log("Payload sent to API:", payload);

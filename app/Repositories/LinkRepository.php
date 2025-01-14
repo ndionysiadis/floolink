@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Enums\LinkType;
 use App\Models\Link;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class LinkRepository
 {
@@ -30,84 +31,78 @@ class LinkRepository
                 $iv
             );
 
-            $expirationData = self::processExpiration($data['expires_in'] ?? 'default');
+            // Determine expiration_type
+            $expirationType = match (true) {
+                $data['expiration_type'] === 'custom' => LinkType::CUSTOM,
+                in_array($data['expiration_type'], ['5', '60', '1440', '10080']) => LinkType::TIMED,
+                $data['expiration_type'] === 'never' => LinkType::NEVER,
+                default => LinkType::DEFAULT,
+            };
 
-            Log::info('Processed Expiration Data:', $expirationData);
+            // Calculate expires_at
+            $expiresAt = match ($expirationType) {
+                LinkType::CUSTOM => isset($data['customMinutes']) && is_numeric($data['customMinutes'])
+                    ? now()->addMinutes((int) $data['customMinutes'])
+                    : null,
+                LinkType::TIMED => self::calculateExpiration($data['expiration_type']),
+                LinkType::NEVER, LinkType::DEFAULT => null,
+            };
 
-            $link = Link::create([
+            return Link::create([
                 'slug' => Str::random(8),
                 'original_url' => $data['original_url'],
                 'encrypted_url' => base64_encode($iv . $encryptedUrl),
                 'secret_key' => $secretKey,
-                'click_limit' => $data['click_limit'] ?? null,
-                'self_destruct' => $expirationData['self_destruct'],
-                'expires_at' => $expirationData['expires_at'],
+                'expires_at' => $expiresAt,
+                'expiration_type' => $expirationType->value,
             ]);
 
-            Log::info('Link Saved:', $link->toArray());
-
-            return $link;
         });
     }
 
-    private static function processExpiration(?string $expirationType): array
+    /**
+     * Calculate expiration time based on the type
+     *
+     * @param string|int $expirationValue
+     * @return Carbon|null
+     */
+    private static function calculateExpiration(string|int $expirationValue): ?Carbon
     {
-        $selfDestruct = false;
-        $expiresAt = null;
-
-        switch ($expirationType) {
-            case 'never':
-                $selfDestruct = false;
-                $expiresAt = null;
-                break;
-
-            case 'default':
-                $selfDestruct = true;
-                $expiresAt = null;
-                break;
-
-            case '5':
-                $expiresAt = Carbon::now()->addMinutes(5);
-                break;
-
-            case '60':
-                $expiresAt = Carbon::now()->addHour();
-                break;
-
-            case '1440':
-                $expiresAt = Carbon::now()->addDay();
-                break;
-
-            case '10080':
-                $expiresAt = Carbon::now()->addWeek();
-                break;
-
-            default:
-                if (is_numeric($expirationType)) {
-                    $expiresAt = Carbon::now()->addMinutes((int)$expirationType);
-                }
-                break;
-        }
-
-        $result = [
-            'expires_at' => $expiresAt,
-            'self_destruct' => $selfDestruct,
-        ];
-
-        Log::info('Expiration Processing Result:', $result);
-
-        return $result;
+        return match ((string)$expirationValue) {
+            '5' => now()->addMinutes(5),
+            '60' => now()->addHour(),
+            '1440' => now()->addDay(),
+            '10080' => now()->addWeek(),
+            default => null,
+        };
     }
 
     /**
-     * Check if a slug exists
+     * Handle link access and check expiration
      *
-     * @param string $slug
+     * @param Link $link
      * @return bool
      */
-    public static function checkIfSlugExists(string $slug): bool
+    public static function handleAccess(Link $link): bool
     {
-        return Link::query()->where('slug', '=', $slug)->exists();
+
+        if ($link->expiration_type === 'default' && $link->clicks === 0) {
+            self::incrementClick($link);
+            $link->update(['expires_at' => now()]);
+            return true;
+        }
+
+        if ($link->expiration_type === 'never') {
+            self::incrementClick($link);
+            return true;
+        }
+
+        if ($link->expires_at < now()) {
+            return false;
+        }
+
+        self::incrementClick($link);
+        return true;
     }
 
     /**
@@ -122,48 +117,15 @@ class LinkRepository
     }
 
     /**
-     * Delete a link
+     * Check if a slug exists
      *
-     * @param Link $link
-     * @return void
+     * @param string $slug
+     * @return bool
      */
-    public static function delete(Link $link): void
+    public static function checkIfSlugExists(string $slug): bool
     {
-        $link->delete();
-    }
-
-    /**
-     * Decrypt a URL
-     *
-     * @param string $encryptedUrl
-     * @param string $secretKey
-     * @return string
-     * @throws \RuntimeException
-     */
-    public static function decryptUrl(string $encryptedUrl, string $secretKey): string
-    {
-        $decoded = base64_decode($encryptedUrl);
-
-        if ($decoded === false) {
-            throw new \RuntimeException('Invalid base64 encoded data');
-        }
-
-        $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-        $iv = substr($decoded, 0, $ivLength);
-        $encryptedData = substr($decoded, $ivLength);
-
-        $decryptedUrl = openssl_decrypt(
-            $encryptedData,
-            'aes-256-cbc',
-            $secretKey,
-            0,
-            $iv
-        );
-
-        if ($decryptedUrl === false) {
-            throw new \RuntimeException('Failed to decrypt URL. Invalid key or corrupted data.');
-        }
-
-        return $decryptedUrl;
+        return Link::query()
+            ->where('slug', '=', $slug)
+            ->exists();
     }
 }
