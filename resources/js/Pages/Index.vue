@@ -5,7 +5,7 @@ import Tyndall from "@/Components/Effects/Tyndall.vue";
 import Particles from "@/Components/Effects/Particles.vue";
 import GeneratedText from "@/Components/Effects/GeneratedText.vue";
 import TextLink from "@/Components/Texts/TextLink.vue";
-import {PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen, PhSparkle} from "@phosphor-icons/vue";
+import {PhDetective, PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen, PhSparkle} from "@phosphor-icons/vue";
 import LaravelLogo from "@/Components/Logos/LaravelLogo.vue";
 import TailwindLogo from "@/Components/Logos/TailwindLogo.vue";
 import InertiaLogo from "@/Components/Logos/InertiaLogo.vue";
@@ -20,6 +20,8 @@ import {useHead} from "@vueuse/head";
 import {computed, ref} from "vue";
 import axios from "axios";
 import SingleSelect from "@/Components/Selectors/SingleSelect.vue";
+import HyperText from "@/Components/Effects/HyperText.vue";
+import SimpleCard from "@/Components/Cards/SimpleCard.vue";
 
 const title = "Your Links in Disguise";
 
@@ -68,21 +70,20 @@ async function handleMagic() {
     const payload: {
         url: string;
         expiration_type: string;
-        customMinutes?: number; // Use customMinutes for custom expiration
+        customMinutes?: number;
     } = {
         url: urlInput.value,
         expiration_type: selectedExpiration.value,
     };
 
     if (selectedExpiration.value === "custom" && customMinutes.value) {
-        payload.customMinutes = customMinutes.value; // Send as customMinutes
+        payload.customMinutes = customMinutes.value;
     }
-
-    console.log("Payload sent to API:", payload);
 
     try {
         const response = await axios.post("/api/encrypt", payload);
-        console.log("Response from API:", response.data);
+        generatedLink.value = response.data.data.full_url;
+        generatedSecretKey.value = response.data.data.secret_key;
     } catch (error) {
         console.error("Error during API call:", error);
     }
@@ -178,7 +179,6 @@ useHead({
                 />
 
                 <div class="flex flex-col items-center justify-center gap-4 w-full">
-                    <!-- URL Input -->
                     <FlooInput
                         label="Paste your link to encrypt or decrypt"
                         id="link"
@@ -223,7 +223,6 @@ useHead({
                         </div>
                     </div>
 
-                    <!-- Generate Button -->
                     <GenerativeButton
                         v-if="canShowButton"
                         class="flex items-center gap-2 motion-preset-focus motion-duration-500"
@@ -232,18 +231,40 @@ useHead({
                         <PhSparkle width="20" weight="fill" class="-ml-2"/>
                         Make Magic
                     </GenerativeButton>
-                </div>
 
-                <div v-if="generatedLink" class="mt-4">
-                    <p class="text-indigo-50">
-                        Your FlooLink:
-                        <TextLink :url="generatedLink">{{ generatedLink }}</TextLink>
-                    </p>
-                    <p class="text-indigo-50">
-                        Secret Key: <strong>{{ generatedSecretKey }}</strong>
-                    </p>
+                    <div v-if="generatedLink" class="motion-preset-focus motion-duration-500 flex flex-col w-full items-center gap-2 text-left">
+                        <SimpleCard>
+                            <div class="p-4">
+                                <div class="flex items-center gap-2">
+                                    <PhLink :size="32" color="#4338CA" weight="duotone"/>
+                                    <div class="font-semibold font-title text-lg">
+                                        <HyperText :text="generatedLink"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    This is your FlooLink. Visitors can access it directly. Share it.
+                                </div>
+                            </div>
+                        </SimpleCard>
+
+                        <SimpleCard>
+                            <div class="p-4">
+                                <div class="flex items-center gap-2">
+                                    <PhDetective :size="32" color="#4338CA" weight="duotone"/>
+                                    <div class="font-semibold font-title text-lg">
+                                        <HyperText :text="generatedSecretKey"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    This is your secret key for decrypting the FlooLink if needed.
+                                </div>
+                            </div>
+                        </SimpleCard>
+                    </div>
                 </div>
             </div>
+
+
 
             <div class="flex flex-col items-center gap-4">
                 <div class="text-2xl font-bold font-title">

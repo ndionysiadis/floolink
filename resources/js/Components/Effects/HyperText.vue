@@ -4,13 +4,13 @@ import { useIntervalFn } from "@vueuse/core";
 
 const props = withDefaults(
     defineProps<{
-        text: string;
+        text: any;
         duration?: number;
         class?: string;
         animateOnLoad?: boolean;
     }>(),
     {
-        duration: 800,
+        duration: 1200,
         class: "",
         animateOnLoad: true,
     }
@@ -63,10 +63,9 @@ if (props.animateOnLoad) {
 
 <template>
     <div
-        class="flex scale-100 cursor-default overflow-hidden py-2"
-        @mouseenter="triggerAnimation"
+        class="flex overflow-hidden"
     >
-        <div class="flex">
+        <div>
       <span
           v-for="(letter, i) in displayText"
           :key="i"
@@ -75,12 +74,12 @@ if (props.animateOnLoad) {
           letter === ' ' ? 'w-3' : '',
           props.class
         ]"
-          class="inline-block font-mono"
+          class="inline-block"
           :initial="{ opacity: 0, y: -10 }"
           :enter="{ opacity: 1, y: 0 }"
           :delay="i * (duration / (text.length * 10))"
       >
-        {{ letter.toUpperCase() }}
+        {{ letter }}
       </span>
         </div>
     </div>
