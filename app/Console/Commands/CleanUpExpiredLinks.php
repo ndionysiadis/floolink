@@ -5,27 +5,16 @@ namespace App\Console\Commands;
 use App\Models\Link;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CleanUpExpiredLinks extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'links:cleanup';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Remove expired or self-destructed links from the database';
+    protected $description = 'Remove expired floolinks from the database with magic';
 
     public function handle(): void
     {
         $this->cleanExpiredLinks();
-        $this->cleanSelfDestructedLinks();
     }
 
     private function cleanExpiredLinks(): void
@@ -34,16 +23,9 @@ class CleanUpExpiredLinks extends Command
             ->where('expires_at', '<', Carbon::now())
             ->delete();
 
-        $this->info("{$expiredCount} expired links have been removed.");
-    }
+        $message = "Avada Kedavra! {$expiredCount} expired floolink(s) have been destroyed!";
 
-    private function cleanSelfDestructedLinks(): void
-    {
-        $selfDestructCount = Link::query()
-            ->where('self_destruct', true)
-            ->where('clicks', '>=', 1)
-            ->delete();
-
-        $this->info("{$selfDestructCount} self-destructed links have been removed.");
+        $this->info($message);
+        Log::info($message);
     }
 }
