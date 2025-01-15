@@ -11,7 +11,7 @@ import TailwindLogo from "@/Components/Logos/TailwindLogo.vue";
 import InertiaLogo from "@/Components/Logos/InertiaLogo.vue";
 import VueLogo from "@/Components/Logos/VueLogo.vue";
 import GlareCard from "@/Components/Cards/GlareCard.vue";
-import Card from "@/Components/Cards/Card.vue";
+import GlowCard from "@/Components/Cards/GlowCard.vue";
 import Footer from "@/Components/Footer.vue";
 import ShimmerText from "@/Components/Texts/ShimmerText.vue";
 import FlooInput from "@/Components/Inputs/FlooInput.vue";
@@ -293,7 +293,7 @@ useHead({
                 </div>
 
                 <div class="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
-                    <Card>
+                    <GlowCard>
                         <div class="p-4">
                             <div class="flex items-center gap-2">
                                 <PhLockSimple :size="32" color="#4338CA" weight="duotone"/>
@@ -303,8 +303,8 @@ useHead({
                                 Paste, encrypt, and send your links safely.
                             </div>
                         </div>
-                    </Card>
-                    <Card>
+                    </GlowCard>
+                    <GlowCard>
                         <div class="p-4">
                             <div class="flex items-center gap-2">
                                 <PhLockSimpleOpen :size="32" color="#4338CA" weight="duotone"/>
@@ -314,8 +314,8 @@ useHead({
                                 Did you receive a floolink? Decrypt it here!
                             </div>
                         </div>
-                    </Card>
-                    <Card class="row-start-2">
+                    </GlowCard>
+                    <GlowCard class="row-start-2">
                         <div class="p-4">
                             <div class="flex items-center gap-2">
                                 <PhHourglass :size="32" color="#4338CA" weight="duotone"/>
@@ -325,8 +325,8 @@ useHead({
                                 Links that vanish when you want. Magic!
                             </div>
                         </div>
-                    </Card>
-                    <Card class="row-start-2">
+                    </GlowCard>
+                    <GlowCard class="row-start-2">
                         <div class="p-4">
                             <div class="flex items-center gap-2">
                                 <PhLink :size="32" color="#4338CA" weight="duotone"/>
@@ -336,7 +336,7 @@ useHead({
                                 Generate and share floolinks effortlessly.
                             </div>
                         </div>
-                    </Card>
+                    </GlowCard>
                 </div>
             </div>
 
