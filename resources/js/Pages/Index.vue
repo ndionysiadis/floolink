@@ -5,7 +5,7 @@ import Tyndall from "@/Components/Effects/Tyndall.vue";
 import Particles from "@/Components/Effects/Particles.vue";
 import GeneratedText from "@/Components/Effects/GeneratedText.vue";
 import TextLink from "@/Components/Texts/TextLink.vue";
-import {PhDetective, PhHourglass, PhLink, PhLockSimple, PhLockSimpleOpen, PhSparkle} from "@phosphor-icons/vue";
+import {PhDetective, PhHourglass, PhLockSimple, PhSparkle} from "@phosphor-icons/vue";
 import LaravelLogo from "@/Components/Logos/LaravelLogo.vue";
 import TailwindLogo from "@/Components/Logos/TailwindLogo.vue";
 import InertiaLogo from "@/Components/Logos/InertiaLogo.vue";
@@ -17,7 +17,7 @@ import ShimmerText from "@/Components/Texts/ShimmerText.vue";
 import FlooInput from "@/Components/Inputs/FlooInput.vue";
 import GenerativeButton from "@/Components/Buttons/GenerativeButton.vue";
 import {useHead} from "@vueuse/head";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
 import SingleSelect from "@/Components/Selectors/SingleSelect.vue";
 import HyperText from "@/Components/Effects/HyperText.vue";
@@ -26,7 +26,6 @@ import SimpleCard from "@/Components/Cards/SimpleCard.vue";
 const title = "Your Links in Disguise";
 
 const urlInput = ref<string>("");
-const secretKey = ref<string | null>(null);
 
 const expirationOptions = [
     {value: "default", label: "Default (When clicked)"},
@@ -44,28 +43,6 @@ const customMinutes = ref<number | null>(null);
 const expirationError = ref<string | null>(null);
 const customMinutesError = ref<string | null>(null);
 
-const showSecretKeyInput = ref(false);
-
-const canShowButton = computed(() => {
-    if (showSecretKeyInput.value) {
-        return urlInput.value.trim() !== "" && secretKey.value?.trim() !== "";
-    }
-    return urlInput.value.trim() !== "";
-});
-async function checkIfSlugExists() {
-    if (urlInput.value.trim() === "") {
-        showSecretKeyInput.value = false;
-        return;
-    }
-
-    try {
-        const response = await axios.post("/api/check-slug", {url: urlInput.value});
-        showSecretKeyInput.value = response.data.isSlug;
-    } catch (error) {
-        console.error("Error checking slug:", error);
-        showSecretKeyInput.value = false;
-    }
-}
 async function handleMagic() {
     const payload: {
         url: string;
@@ -83,14 +60,12 @@ async function handleMagic() {
     try {
         const response = await axios.post("/api/encrypt", payload);
         generatedLink.value = response.data.data.full_url;
-        generatedSecretKey.value = response.data.data.secret_key;
     } catch (error) {
         console.error("Error during API call:", error);
     }
 }
 
 const generatedLink = ref<string | null>(null);
-const generatedSecretKey = ref<string | null>(null);
 
 useHead({
     title: "FlooLink — Your Links in Disguise",
@@ -161,46 +136,34 @@ useHead({
 
             <div
                 class="flex flex-col items-center justify-center mt-16 fill-indigo-50 motion-preset-focus motion-duration-2000 z-10">
-                <ApplicationLogo class="w-56"/>
+                <ApplicationLogo class="w-40 lg:w-56"/>
             </div>
 
-            <div class="flex flex-col items-center w-7/12 gap-4">
+            <div class="flex flex-col items-center gap-4 px-4 lg:px-0 lg:w-7/12">
                 <div
                     class="rounded-full px-4 py-1 border border-gray-50/10 bg-gray-950"
                 >
-                    <ShimmerText>
+                    <ShimmerText class="text-sm lg:text-md">
                         Generate Encrypted Links
                     </ShimmerText>
                 </div>
 
                 <GeneratedText
                     words="Teleport your links securely through the magic of Floo network"
-                    class="text-4xl font-bold font-title"
+                    class="text-2xl lg:text-4xl font-bold font-title"
                 />
 
                 <div class="flex flex-col items-center justify-center gap-4 w-full">
                     <FlooInput
-                        label="Paste your link to encrypt or decrypt"
+                        label="Paste your link to encrypt"
                         id="link"
                         type="url"
                         v-model="urlInput"
                         :required="true"
                         :autofocus="true"
-                        @input="checkIfSlugExists"
                     />
 
-                    <div v-if="showSecretKeyInput"
-                         class="flex items-center justify-center w-full motion-preset-focus motion-duration-500">
-                        <FlooInput
-                            id="secret-key"
-                            label="Enter Secret Key"
-                            type="password"
-                            v-model="secretKey"
-                            :required="true"
-                            :autofocus="false"
-                        />
-                    </div>
-                    <div v-else class="flex flex-col gap-4 items-center justify-center w-full">
+                    <div class="flex flex-col gap-4 items-center justify-center w-full">
                         <SingleSelect
                             id="expiration-time"
                             label="Set expiration time"
@@ -224,7 +187,7 @@ useHead({
                     </div>
 
                     <GenerativeButton
-                        v-if="canShowButton"
+                        v-if="urlInput"
                         class="flex items-center gap-2 motion-preset-focus motion-duration-500"
                         @click="handleMagic"
                     >
@@ -232,13 +195,14 @@ useHead({
                         Make Magic
                     </GenerativeButton>
 
-                    <div v-if="generatedLink" class="motion-preset-focus motion-duration-500 flex flex-col w-full items-center gap-2 text-left">
+                    <div v-if="generatedLink"
+                         class="motion-preset-focus motion-duration-500 flex flex-col w-full items-center gap-2 text-left">
                         <SimpleCard>
                             <div class="p-4">
                                 <div class="flex items-center gap-2">
-                                    <PhLink :size="32" color="#4338CA" weight="duotone"/>
+                                    <PhDetective :size="32" color="#4338CA" weight="duotone"/>
                                     <div class="font-semibold font-title text-lg">
-                                        {{ generatedLink }}
+                                        <HyperText :text="generatedLink"/>
                                     </div>
                                 </div>
                                 <div>
@@ -246,106 +210,68 @@ useHead({
                                 </div>
                             </div>
                         </SimpleCard>
-
-                        <SimpleCard>
-                            <div class="p-4">
-                                <div class="flex items-center gap-2">
-                                    <PhDetective :size="32" color="#4338CA" weight="duotone"/>
-                                    <div class="font-semibold font-title text-lg">
-                                        <HyperText :text="generatedSecretKey"/>
-                                    </div>
-                                </div>
-                                <div>
-                                    This is your secret key for decrypting the FlooLink if needed.
-                                </div>
-                            </div>
-                        </SimpleCard>
                     </div>
                 </div>
             </div>
 
-
-
-            <div class="flex flex-col items-center gap-4">
-                <div class="text-2xl font-bold font-title">
-                    Why FlooLink
-                </div>
-
-                <div class="text-md font-regular w-8/12">
-                    Inspired by the
-                    <TextLink url="https://harrypotter.fandom.com/wiki/Floo_Network">magical
-                        fireplaces
-                    </TextLink>
-                    in Harry Potter that transport wizards safely, Floolink teleports your URLs using advanced
-                    <TextLink url="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256 encryption
-                    </TextLink>
-                    ,
-                    transforming them into protected links ready to share. Make your links disappear from
-                    prying eyes and reappear exactly where you need them – safe, secure, and magical. <span
-                    class="font-bold">Expired links are
+            <div class="flex flex-col items-center lg:grid lg:grid-cols-12 gap-16 lg:gap-4 px-4 lg:px-0 max-w-3xl">
+                <div class="flex flex-col gap-4 col-span-5">
+                    <div class="text-xl lg:text-2xl font-bold font-title">
+                        Why FlooLink
+                    </div>
+                    <div class="text-sm lg:text-md font-regular lg:text-left">
+                        Inspired by the
+                        <TextLink url="https://harrypotter.fandom.com/wiki/Floo_Network">magical
+                            fireplaces
+                        </TextLink>
+                        in Harry Potter that transport wizards safely, Floolink teleports your URLs using advanced
+                        <TextLink url="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256 encryption
+                        </TextLink>
+                        ,
+                        transforming them into protected links ready to share. Make your links disappear from
+                        prying eyes and reappear exactly where you need them – safe, secure, and magical. <span
+                        class="font-bold">Expired links are
                     automatically deleted within an hour, ensuring your data remains private and protected.</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-4 col-span-7">
+                    <div class="text-xl lg:text-2xl font-bold font-title">
+                        The spells
+                    </div>
+                    <div class="flex flex-col md:flex-row lg:flex-col gap-4">
+                        <GlowCard>
+                            <div class="p-2 lg:p-4 text-left">
+                                <div class="flex items-center gap-2">
+                                    <PhLockSimple :size="28" color="#4338CA" weight="duotone"/>
+                                    <div class="font-semibold font-title text-sm lg:text-md">Protego Linkium</div>
+                                </div>
+                                <div class="text-xs lg:text-sm">
+                                    Paste, encrypt, and send your links safely.
+                                </div>
+                            </div>
+                        </GlowCard>
+                        <GlowCard>
+                            <div class="p-2 lg:p-4 text-left">
+                                <div class="flex items-center gap-2">
+                                    <PhHourglass :size="28" color="#4338CA" weight="duotone"/>
+                                    <div class="font-semibold font-title text-sm lg:text-md">Evanesco Tempus</div>
+                                </div>
+                                <div class="text-xs lg:text-sm">
+                                    Links that vanish when you want. Magic!
+                                </div>
+                            </div>
+                        </GlowCard>
+                    </div>
                 </div>
             </div>
 
             <div class="flex flex-col items-center gap-4">
-                <div class="text-2xl font-bold font-title">
-                    The spells you can cast
-                </div>
-
-                <div class="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
-                    <GlowCard>
-                        <div class="p-4 text-left">
-                            <div class="flex items-center gap-2">
-                                <PhLockSimple :size="32" color="#4338CA" weight="duotone"/>
-                                <div class="font-semibold font-title text-lg">Protego Linkium</div>
-                            </div>
-                            <div>
-                                Paste, encrypt, and send your links safely.
-                            </div>
-                        </div>
-                    </GlowCard>
-                    <GlowCard>
-                        <div class="p-4 text-left">
-                            <div class="flex items-center gap-2">
-                                <PhLockSimpleOpen :size="32" color="#4338CA" weight="duotone"/>
-                                <div class="font-semibold font-title text-lg">Revelio Linkium</div>
-                            </div>
-                            <div>
-                                Suspicious about a FlooLink? Decrypt it!
-                            </div>
-                        </div>
-                    </GlowCard>
-                    <GlowCard class="row-start-2">
-                        <div class="p-4 text-left">
-                            <div class="flex items-center gap-2">
-                                <PhHourglass :size="32" color="#4338CA" weight="duotone"/>
-                                <div class="font-semibold font-title text-lg">Evanesco Tempus</div>
-                            </div>
-                            <div>
-                                Links that vanish when you want. Magic!
-                            </div>
-                        </div>
-                    </GlowCard>
-                    <GlowCard class="row-start-2">
-                        <div class="p-4 text-left">
-                            <div class="flex items-center gap-2">
-                                <PhLink :size="32" color="#4338CA" weight="duotone"/>
-                                <div class="font-semibold font-title text-lg">Wingardium Linkiosa</div>
-                            </div>
-                            <div>
-                                Generate and share floolinks effortlessly.
-                            </div>
-                        </div>
-                    </GlowCard>
-                </div>
-            </div>
-
-            <div class="flex flex-col items-center gap-4">
-                <div class="text-2xl font-bold font-title">
+                <div class="text-xl lg:text-2xl font-bold font-title">
                     Built with all the modern technologies
                 </div>
 
-                <div class="flex flex-col md:flex-row items-center gap-4">
+                <div class="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 lg:grid lg:grid-cols-4 lg:grid-rows-1 gap-4">
                     <GlareCard
                         title="Vue.js"
                         :width="200"
@@ -379,7 +305,6 @@ useHead({
                     </GlareCard>
                 </div>
             </div>
-
             <Footer/>
         </div>
     </Tyndall>

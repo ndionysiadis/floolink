@@ -6,17 +6,10 @@ use App\Enums\LinkType;
 use App\Models\Link;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class LinkRepository
 {
-    /**
-     * Store a new link
-     *
-     * @param array $data
-     * @return Link
-     */
     public static function store(array $data): Link
     {
         return DB::transaction(function () use ($data) {
@@ -31,7 +24,6 @@ class LinkRepository
                 $iv
             );
 
-            // Determine expiration_type
             $expirationType = match (true) {
                 $data['expiration_type'] === 'custom' => LinkType::CUSTOM,
                 in_array($data['expiration_type'], ['5', '60', '1440', '10080']) => LinkType::TIMED,
@@ -39,7 +31,6 @@ class LinkRepository
                 default => LinkType::DEFAULT,
             };
 
-            // Calculate expires_at
             $expiresAt = match ($expirationType) {
                 LinkType::CUSTOM => isset($data['customMinutes']) && is_numeric($data['customMinutes'])
                     ? now()->addMinutes((int) $data['customMinutes'])
@@ -60,13 +51,7 @@ class LinkRepository
         });
     }
 
-    /**
-     * Calculate expiration time based on the type
-     *
-     * @param string|int $expirationValue
-     * @return Carbon|null
-     */
-    private static function calculateExpiration(string|int $expirationValue): ?Carbon
+    private static function calculateExpiration(string|int $expirationValue): Carbon
     {
         return match ((string)$expirationValue) {
             '5' => now()->addMinutes(5),
@@ -77,12 +62,6 @@ class LinkRepository
         };
     }
 
-    /**
-     * Handle link access and check expiration
-     *
-     * @param Link $link
-     * @return bool
-     */
     public static function handleAccess(Link $link): bool
     {
 
@@ -105,27 +84,12 @@ class LinkRepository
         return true;
     }
 
-    /**
-     * Increment click count for a link
-     *
-     * @param Link $link
-     * @return void
-     */
     public static function incrementClick(Link $link): void
     {
         $link->increment('clicks');
     }
-
-    /**
-     * Check if a slug exists
-     *
-     * @param string $slug
-     * @return bool
-     */
-    public static function checkIfSlugExists(string $slug): bool
+    public static function delete(Link $link): bool
     {
-        return Link::query()
-            ->where('slug', '=', $slug)
-            ->exists();
+        return $link->delete();
     }
 }

@@ -55,7 +55,6 @@ class LinkController extends Controller
     public function destroy(Link $link)
     {
         LinkRepository::delete($link);
-
         return response()->json([
             'message' => 'Link deleted successfully!',
         ]);
