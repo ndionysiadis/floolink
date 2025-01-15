@@ -17,10 +17,10 @@ const props = withDefaults(
 );
 
 const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const displayText = ref(props.text.split(""));
+const displayText = ref<string[]>(props.text.split(""));
 const iterations = ref(0);
 
-function getRandomLetter() {
+function getRandomLetter(): string {
     return alphabets[Math.floor(Math.random() * alphabets.length)];
 }
 
@@ -32,7 +32,7 @@ function triggerAnimation() {
 const { pause, resume } = useIntervalFn(
     () => {
         if (iterations.value < props.text.length) {
-            displayText.value = displayText.value.map((l, i) =>
+            displayText.value = displayText.value.map((l: string, i: number) =>
                 l === " " ? l : i <= iterations.value ? props.text[i] : getRandomLetter()
             );
             iterations.value += 0.1;
@@ -40,7 +40,7 @@ const { pause, resume } = useIntervalFn(
             pause();
         }
     },
-    computed(() => props.duration / (props.text.length * 10))
+    computed(() => props.duration! / (props.text.length * 10)) // Add non-null assertion for optional prop
 );
 
 function startAnimation() {
@@ -50,7 +50,7 @@ function startAnimation() {
 
 watch(
     () => props.text,
-    (newText) => {
+    (newText: string) => {
         displayText.value = newText.split("");
         triggerAnimation();
     }
@@ -62,25 +62,23 @@ if (props.animateOnLoad) {
 </script>
 
 <template>
-    <div
-        class="flex overflow-hidden"
-    >
+    <div class="flex overflow-hidden">
         <div>
-      <span
-          v-for="(letter, i) in displayText"
-          :key="i"
-          v-motion
-          :class="[
-          letter === ' ' ? 'w-3' : '',
-          props.class
-        ]"
-          class="inline-block"
-          :initial="{ opacity: 0, y: -10 }"
-          :enter="{ opacity: 1, y: 0 }"
-          :delay="i * (duration / (text.length * 10))"
-      >
-        {{ letter }}
-      </span>
+            <span
+                v-for="(letter, i) in displayText"
+                :key="i"
+                v-motion
+                :class="[
+                    letter === ' ' ? 'w-3' : '',
+                    props.class
+                ]"
+                class="inline-block"
+                :initial="{ opacity: 0, y: -10 }"
+                :enter="{ opacity: 1, y: 0 }"
+                :delay="i * (props.duration! / (props.text.length * 10))"
+            >
+            {{ letter }}
+            </span>
         </div>
     </div>
 </template>
