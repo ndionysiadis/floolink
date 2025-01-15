@@ -40,7 +40,7 @@ const { pause, resume } = useIntervalFn(
             pause();
         }
     },
-    computed(() => props.duration! / (props.text.length * 10)) // Add non-null assertion for optional prop
+    computed(() => props.duration! / (props.text.length * 10))
 );
 
 function startAnimation() {
