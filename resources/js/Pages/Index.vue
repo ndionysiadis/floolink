@@ -238,7 +238,7 @@ useHead({
                                 <div class="flex items-center gap-2">
                                     <PhLink :size="32" color="#4338CA" weight="duotone"/>
                                     <div class="font-semibold font-title text-lg">
-                                        <HyperText :text="generatedLink"/>
+                                        {{ generatedLink }}
                                     </div>
                                 </div>
                                 <div>
