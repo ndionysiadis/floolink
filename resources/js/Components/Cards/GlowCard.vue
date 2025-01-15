@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {UseMouseEventExtractor, useParentElement} from '@vueuse/core'
+import {UseMouseEventExtractor} from '@vueuse/core'
 import { useMouse } from '@vueuse/core'
 import {ref} from "vue";
 

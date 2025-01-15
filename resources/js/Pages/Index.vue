@@ -294,7 +294,7 @@ useHead({
 
                 <div class="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
                     <GlowCard>
-                        <div class="p-4">
+                        <div class="p-4 text-left">
                             <div class="flex items-center gap-2">
                                 <PhLockSimple :size="32" color="#4338CA" weight="duotone"/>
                                 <div class="font-semibold font-title text-lg">Protego Linkium</div>
@@ -305,18 +305,18 @@ useHead({
                         </div>
                     </GlowCard>
                     <GlowCard>
-                        <div class="p-4">
+                        <div class="p-4 text-left">
                             <div class="flex items-center gap-2">
                                 <PhLockSimpleOpen :size="32" color="#4338CA" weight="duotone"/>
                                 <div class="font-semibold font-title text-lg">Revelio Linkium</div>
                             </div>
                             <div>
-                                Did you receive a floolink? Decrypt it here!
+                                Suspicious about a FlooLink? Decrypt it!
                             </div>
                         </div>
                     </GlowCard>
                     <GlowCard class="row-start-2">
-                        <div class="p-4">
+                        <div class="p-4 text-left">
                             <div class="flex items-center gap-2">
                                 <PhHourglass :size="32" color="#4338CA" weight="duotone"/>
                                 <div class="font-semibold font-title text-lg">Evanesco Tempus</div>
@@ -327,7 +327,7 @@ useHead({
                         </div>
                     </GlowCard>
                     <GlowCard class="row-start-2">
-                        <div class="p-4">
+                        <div class="p-4 text-left">
                             <div class="flex items-center gap-2">
                                 <PhLink :size="32" color="#4338CA" weight="duotone"/>
                                 <div class="font-semibold font-title text-lg">Wingardium Linkiosa</div>
