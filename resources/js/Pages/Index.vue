@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Head} from "@inertiajs/vue3";
+import {Head, useForm} from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/Logos/ApplicationLogo.vue";
 import Tyndall from "@/Components/Effects/Tyndall.vue";
 import Particles from "@/Components/Effects/Particles.vue";
@@ -17,55 +17,47 @@ import ShimmerText from "@/Components/Texts/ShimmerText.vue";
 import FlooInput from "@/Components/Inputs/FlooInput.vue";
 import GenerativeButton from "@/Components/Buttons/GenerativeButton.vue";
 import {useHead} from "@vueuse/head";
-import {ref} from "vue";
-import axios from "axios";
 import SingleSelect from "@/Components/Selectors/SingleSelect.vue";
 import HyperText from "@/Components/Effects/HyperText.vue";
 import SimpleCard from "@/Components/Cards/SimpleCard.vue";
+import {computed} from "vue";
 
 const title = "Your Links in Disguise";
 
-const urlInput = ref<string>("");
+const form = useForm({
+    original_url: "",
+    expiration_type: "default",
+    customMinutes: null,
+});
+
+const props = defineProps<{
+    generatedLink?: string
+}>();
+
+const generatedLink = computed(() => props.generatedLink || '');
 
 const expirationOptions = [
-    {value: "default", label: "Default (When clicked)"},
-    {value: "never", label: "Never Expire"},
-    {value: "5", label: "5 Minutes"},
-    {value: "60", label: "1 Hour"},
-    {value: "1440", label: "24 Hours"},
-    {value: "10080", label: "7 Days"},
-    {value: "custom", label: "Custom"},
-];
+    { value: "default", label: "Default (When clicked)" },
+    { value: "never", label: "Never Expire" },
+    { value: "5", label: "5 Minutes" },
+    { value: "60", label: "1 Hour" },
+    { value: "1440", label: "24 Hours" },
+    { value: "10080", label: "7 Days" },
+    { value: "custom", label: "Custom" },
+]
 
-const selectedExpiration = ref<string>("default");
-const customMinutes = ref<number | null>(null);
-
-const expirationError = ref<string | null>(null);
-const customMinutesError = ref<string | null>(null);
-
-async function handleMagic() {
-    const payload: {
-        url: string;
-        expiration_type: string;
-        customMinutes?: number;
-    } = {
-        url: urlInput.value,
-        expiration_type: selectedExpiration.value,
-    };
-
-    if (selectedExpiration.value === "custom" && customMinutes.value) {
-        payload.customMinutes = customMinutes.value;
-    }
-
-    try {
-        const response = await axios.post("/api/encrypt", payload);
-        generatedLink.value = response.data.data.full_url;
-    } catch (error) {
-        console.error("Error during API call:", error);
-    }
-}
-
-const generatedLink = ref<string | null>(null);
+const submitForm = () => {
+    form.post(route("links.store"), {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            form.clearErrors();
+            form.original_url = '';
+            form.expiration_type = 'default';
+            form.customMinutes = null;
+        },
+    });
+};
 
 useHead({
     title: "FlooLink — Your Links in Disguise",
@@ -120,7 +112,6 @@ useHead({
     ],
     link: [{rel: "canonical", href: "https://floo.link"}],
 });
-
 </script>
 
 <template>
@@ -153,12 +144,13 @@ useHead({
                     class="text-2xl lg:text-4xl font-bold font-title"
                 />
 
-                <div class="flex flex-col items-center justify-center gap-4 w-full">
+
+                <form @submit.prevent="submitForm" class="flex flex-col items-center justify-center gap-4 w-full">
                     <FlooInput
                         label="Paste your link to encrypt"
                         id="link"
                         type="url"
-                        v-model="urlInput"
+                        v-model="form.original_url"
                         :required="true"
                         :autofocus="true"
                     />
@@ -168,49 +160,49 @@ useHead({
                             id="expiration-time"
                             label="Set expiration time"
                             :options="expirationOptions"
-                            v-model="selectedExpiration"
-                            :error="expirationError"
+                            v-model="form.expiration_type"
+                            :error="form.errors.expiration_type"
                         />
 
-                        <div v-if="selectedExpiration === 'custom'"
+                        <div v-if="form.expiration_type === 'custom'"
                              class="flex items-center justify-center w-full motion-preset-focus motion-duration-500">
                             <FlooInput
-                                id="custom-time"
+                                id="custom_time"
                                 label="Enter minutes"
                                 type="number"
-                                v-model="customMinutes"
-                                :required="true"
+                                v-model="form.customMinutes"
+                                min="1"
+                                max="525600"
                                 :autofocus="false"
-                                :error="customMinutesError"
                             />
                         </div>
                     </div>
 
                     <GenerativeButton
-                        v-if="urlInput"
+                        v-if="form.original_url.length > 0"
+                        :disabled="form.processing"
                         class="flex items-center gap-2 motion-preset-focus motion-duration-500"
-                        @click="handleMagic"
+                        @click="submitForm"
                     >
                         <PhSparkle width="20" weight="fill" class="-ml-2"/>
                         Make Magic
                     </GenerativeButton>
+                </form>
 
-                    <div v-if="generatedLink"
-                         class="motion-preset-focus motion-duration-500 flex flex-col w-full items-center gap-2 text-left">
-                        <SimpleCard>
-                            <div class="p-4">
-                                <div class="flex items-center gap-2">
-                                    <PhDetective :size="32" color="#4338CA" weight="duotone"/>
-                                    <div class="font-semibold font-title text-lg">
-                                        <HyperText :text="generatedLink"/>
-                                    </div>
-                                </div>
-                                <div>
-                                    This is your FlooLink. Visitors can access it directly. Share it.
+                <div v-if="generatedLink" class="motion-preset-focus motion-duration-500 flex flex-col w-full items-center gap-2 text-left">
+                    <SimpleCard>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2">
+                                <PhDetective :size="32" color="#4338CA" weight="duotone" />
+                                <div class="font-semibold font-title text-lg">
+                                    <HyperText :text="generatedLink" />
                                 </div>
                             </div>
-                        </SimpleCard>
-                    </div>
+                            <div>
+                                This is your FlooLink. Visitors can access it directly. Share it.
+                            </div>
+                        </div>
+                    </SimpleCard>
                 </div>
             </div>
 

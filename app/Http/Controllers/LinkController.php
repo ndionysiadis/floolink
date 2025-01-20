@@ -2,43 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLinkRequest;
 use App\Models\Link;
 use App\Repositories\LinkRepository;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class LinkController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreLinkRequest $request)
     {
-        $validatedData = $request->validate([
-            'original_url' => 'required|url',
-            'expiration_type' => [
-                'required',
-                Rule::in(['default', 'never', '5', '60', '1440', '10080', 'custom']),
-            ],
-            'customMinutes' => [
-                'required_if:expiration_type,custom',
-                'nullable',
-                'integer',
-                'min:1',
-                'max:525600',
-            ],
-        ]);
+        $this->rateLimiter();
 
-        $expirationValue = $validatedData['expiration_type'];
+        $link = LinkRepository::store($request->validated());
 
-        if ($validatedData['expiration_type'] === 'custom' && isset($validatedData['customMinutes'])) {
-            $expirationValue = (string)$validatedData['customMinutes'];
-        }
-
-        LinkRepository::store([
-            'original_url' => $validatedData['url'],
-            'expires_in' => $expirationValue,
-        ]);
-
-        return response()->json(['message' => 'Link created successfully!']);
+        return redirect()
+            ->route('index')
+            ->with('generatedLink', url($link->slug));
     }
 
     public function redirect($slug): RedirectResponse
@@ -58,5 +39,21 @@ class LinkController extends Controller
         return response()->json([
             'message' => 'Link deleted successfully!',
         ]);
+    }
+
+    private function rateLimiter(): void
+    {
+        $key = 'create-link:' . request()->ip();
+        $maxAttempts = 30;
+
+        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            throw ValidationException::withMessages([
+                'original_url' => ["Too many attempts. Please try again in {$seconds} seconds."],
+            ]);
+        }
+
+        RateLimiter::hit($key);
     }
 }

@@ -28,4 +28,9 @@ class Link extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function getFullUrlAttribute(): string
+    {
+        return url($this->slug);
+    }
 }

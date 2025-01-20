@@ -24,10 +24,11 @@ class LinkRepository
                 $iv
             );
 
+            $expirationTypeValue = $data['expiration_type'] ?? 'default';
             $expirationType = match (true) {
-                $data['expiration_type'] === 'custom' => LinkType::CUSTOM,
-                in_array($data['expiration_type'], ['5', '60', '1440', '10080']) => LinkType::TIMED,
-                $data['expiration_type'] === 'never' => LinkType::NEVER,
+                $expirationTypeValue === 'custom' => LinkType::CUSTOM,
+                in_array($expirationTypeValue, ['5', '60', '1440', '10080']) => LinkType::TIMED,
+                $expirationTypeValue === 'never' => LinkType::NEVER,
                 default => LinkType::DEFAULT,
             };
 
@@ -35,9 +36,14 @@ class LinkRepository
                 LinkType::CUSTOM => isset($data['customMinutes']) && is_numeric($data['customMinutes'])
                     ? now()->addMinutes((int) $data['customMinutes'])
                     : null,
-                LinkType::TIMED => self::calculateExpiration($data['expiration_type']),
+                LinkType::TIMED => self::calculateExpiration($expirationTypeValue),
                 LinkType::NEVER, LinkType::DEFAULT => null,
             };
+
+            \Log::info('Resolved Expiration:', [
+                'type' => $expirationType->value,
+                'expires_at' => $expiresAt,
+            ]);
 
             return Link::create([
                 'slug' => Str::random(8),
@@ -47,7 +53,6 @@ class LinkRepository
                 'expires_at' => $expiresAt,
                 'expiration_type' => $expirationType->value,
             ]);
-
         });
     }
 

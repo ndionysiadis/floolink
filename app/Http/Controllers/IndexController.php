@@ -14,6 +14,7 @@ class IndexController extends Controller
             return Inertia::render('Index', [
                 'laravelVersion' => Application::VERSION,
                 'phpVersion' => PHP_VERSION,
+                'generatedLink' => session('generatedLink')
             ]);
         }
     }
