@@ -156,31 +156,29 @@ useHead({
                         :error="form.errors.original_url"
                     />
 
-                    <div class="flex flex-col gap-4 items-center justify-center w-full">
-                        <div v-if="form.original_url.length > 0"
-                             class="motion-preset-focus motion-duration-500 w-full">
-                            <SingleSelect
-                                id="expiration-time"
-                                label="Set expiration time"
-                                :options="expirationOptions"
-                                v-model="form.expiration_type"
-                                :error="form.errors.expiration_type"
-                            />
-                        </div>
+                    <div v-if="form.original_url.length > 0"
+                         class="flex items-center justify-center motion-preset-focus motion-duration-500 w-full">
+                        <SingleSelect
+                            id="expiration-time"
+                            label="Set expiration time"
+                            :options="expirationOptions"
+                            v-model="form.expiration_type"
+                            :error="form.errors.expiration_type"
+                        />
+                    </div>
 
-                        <div v-if="form.expiration_type === 'custom'"
-                             class="flex items-center justify-center w-full motion-preset-focus motion-duration-500">
-                            <FlooInput
-                                id="custom_time"
-                                label="Enter minutes"
-                                type="number"
-                                v-model="form.customMinutes"
-                                min="1"
-                                max="525600"
-                                :autofocus="false"
-                                :error="form.errors.customMinutes"
-                            />
-                        </div>
+                    <div v-if="form.expiration_type === 'custom'"
+                         class="flex items-center justify-center w-full motion-preset-focus motion-duration-500">
+                        <FlooInput
+                            id="custom_time"
+                            label="Enter minutes"
+                            type="number"
+                            v-model="form.customMinutes"
+                            min="1"
+                            max="525600"
+                            :autofocus="false"
+                            :error="form.errors.customMinutes"
+                        />
                     </div>
 
                     <GenerativeButton
