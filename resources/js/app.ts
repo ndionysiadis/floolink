@@ -10,7 +10,7 @@ import {MotionPlugin} from "@vueuse/motion";
 import { createHead } from "@vueuse/head";
 
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'FlooLink';
 const head = createHead();
 
 createInertiaApp({
