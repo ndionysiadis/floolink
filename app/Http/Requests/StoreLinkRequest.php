@@ -29,7 +29,7 @@ class StoreLinkRequest extends FormRequest
     {
         return [
             'original_url.required' => 'Please provide a URL to encrypt.',
-            'original_url.url' => 'The URL must be valid.',
+            'original_url.url' => 'The URL must be valid. Try adding the https://',
             'expiration_type.required' => 'Please select an expiration type.',
             'expiration_type.in' => 'Invalid expiration type selected.',
             'customMinutes.required_if' => 'Custom minutes are required for custom expiration type.',

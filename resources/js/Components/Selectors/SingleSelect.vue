@@ -50,15 +50,17 @@ function updateValue(event: Event) {
             </option>
         </select>
 
-        <span
-            class="pointer-events-none absolute rounded-md start-2.5 top-0 -translate-y-1/2 bg-gray-900 px-2 py-0.5 text-xs text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+        <span v-if="!props.error"
+              class="pointer-events-none absolute rounded-md start-2.5 top-0 -translate-y-1/2 bg-gray-900 px-2 py-0.5 text-xs text-gray-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
         >
             {{ props.label }}
         </span>
-    </div>
 
-    <div v-if="props.error" class="-mt-3 text-sm text-red-400">
-        {{ props.error }}
+        <span v-else
+              class="pointer-events-none absolute rounded-md start-2.5 top-0 -translate-y-1/2 bg-gray-900 px-2 py-0.5 text-xs text-red-400 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+        >
+            {{ props.error }}
+        </span>
     </div>
 </template>
 

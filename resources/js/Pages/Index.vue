@@ -153,6 +153,7 @@ useHead({
                         v-model="form.original_url"
                         :required="true"
                         :autofocus="true"
+                        :error="form.errors.original_url"
                     />
 
                     <div class="flex flex-col gap-4 items-center justify-center w-full">
@@ -177,6 +178,7 @@ useHead({
                                 min="1"
                                 max="525600"
                                 :autofocus="false"
+                                :error="form.errors.customMinutes"
                             />
                         </div>
                     </div>
