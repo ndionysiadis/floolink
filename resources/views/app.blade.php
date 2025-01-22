@@ -6,6 +6,31 @@
 
         <title inertia>{{ config('app.name', 'FlooLink') }}</title>
 
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.">
+        <meta name="keywords" content="AES 256 encryption link generator, Encrypted URL sharing, Secure link encryption app, Decrypt protected links online, URL encryption and decryption tool, Privacy-focused link sharing, Secure URL generator with encryption, Temporary secure link generator, Expiring encrypted link sharing, Share URLs securely online, Encrypted links with expiration, Set link expiration for secure sharing, Time-sensitive encrypted links, Self-destructing encrypted links, Privacy-conscious file sharing, Secure data sharing for professionals, Encrypted link sharing for businesses, Built with VILT stack (Vue.js, Inertia.js, Laravel, Tailwind CSS), Advanced encryption link tool, Latest secure link sharing app.">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="FlooLink — Your Links in Disguise">
+        <meta name="theme-color" content="#111827">
+
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="FlooLink — Your Links in Disguise">
+        <meta property="og:description" content="Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://floo.link">
+        <meta property="og:image" content="{{ asset('images/floolink.jpg') }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="FlooLink — Your Links in Disguise">
+        <meta name="twitter:description" content="Teleport your URLs using advanced AES-256 encryption, transforming them into protected links ready to share.">
+        <meta name="twitter:image" content="{{ asset('images/floolink.jpg') }}">
+
+        <!-- Link Tags -->
+        <link rel="canonical" href="https://floo.link">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link rel="preconnect" href="https://fonts.googleapis.com">

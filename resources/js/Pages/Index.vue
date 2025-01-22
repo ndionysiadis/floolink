@@ -87,7 +87,7 @@ useHead({
         {property: "og:url", content: "https://floo.link"},
         {
             property: "og:image",
-            content: "http://floo.link/images/floolink.jpg",
+            content: "https://floo.link/images/floolink.jpg",
         },
         {property: "og:image:width", content: "1200"},
         {property: "og:image:height", content: "630"},
@@ -156,13 +156,16 @@ useHead({
                     />
 
                     <div class="flex flex-col gap-4 items-center justify-center w-full">
-                        <SingleSelect
-                            id="expiration-time"
-                            label="Set expiration time"
-                            :options="expirationOptions"
-                            v-model="form.expiration_type"
-                            :error="form.errors.expiration_type"
-                        />
+                        <div v-if="form.original_url.length > 0"
+                             class="motion-preset-focus motion-duration-500 w-full">
+                            <SingleSelect
+                                id="expiration-time"
+                                label="Set expiration time"
+                                :options="expirationOptions"
+                                v-model="form.expiration_type"
+                                :error="form.errors.expiration_type"
+                            />
+                        </div>
 
                         <div v-if="form.expiration_type === 'custom'"
                              class="flex items-center justify-center w-full motion-preset-focus motion-duration-500">
@@ -181,7 +184,7 @@ useHead({
                     <GenerativeButton
                         v-if="form.original_url.length > 0"
                         :disabled="form.processing"
-                        class="flex items-center gap-2 motion-preset-focus motion-duration-500"
+                        class="flex items-center gap-2 motion-preset-pop motion-duration-500"
                         @click="submitForm"
                     >
                         <PhSparkle width="20" weight="fill" class="-ml-2"/>
