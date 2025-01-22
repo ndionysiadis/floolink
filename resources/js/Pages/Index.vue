@@ -112,8 +112,6 @@ useHead({
     ],
     link: [{rel: "canonical", href: "https://floo.link"}],
 });
-
-console.log('successful deployment');
 </script>
 
 <template>
