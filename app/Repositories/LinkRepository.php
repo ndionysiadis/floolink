@@ -40,11 +40,6 @@ class LinkRepository
                 LinkType::NEVER, LinkType::DEFAULT => null,
             };
 
-            \Log::info('Resolved Expiration:', [
-                'type' => $expirationType->value,
-                'expires_at' => $expiresAt,
-            ]);
-
             return Link::create([
                 'slug' => Str::random(8),
                 'original_url' => $data['original_url'],
