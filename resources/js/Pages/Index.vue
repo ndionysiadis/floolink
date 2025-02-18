@@ -117,7 +117,7 @@ useHead({
 <template>
     <Head :title="title"/>
 
-    <Tyndall streak-color="#fff" class="flex flex-col text-center scrollbar min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
+    <Tyndall streak-color="#fff" class="flex flex-col text-center min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
         <Particles
             :density="500"
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"

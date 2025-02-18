@@ -1,5 +1,6 @@
-import defaultTheme from 'tailwindcss/defaultTheme'
-import forms from '@tailwindcss/forms'
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+import motion from 'tailwindcss-motion';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,7 +10,6 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
     ],
-
     theme: {
         extend: {
             fontFamily: {
@@ -19,22 +19,20 @@ export default {
             keyframes: {
                 shimmer: {
                     '0%, 90%, 100%': {
-                        'background-position': 'calc(-100% - var(--shimmer-width)) 0'
+                        'background-position': 'calc(-100% - var(--shimmer-width)) 0',
                     },
                     '30%, 60%': {
-                        'background-position': 'calc(100% + var(--shimmer-width)) 0'
-                    }
-                }
+                        'background-position': 'calc(100% + var(--shimmer-width)) 0',
+                    },
+                },
             },
             animation: {
-                shimmer: 'shimmer 8s infinite'
-            }
+                shimmer: 'shimmer 8s infinite',
+            },
         },
     },
-
     plugins: [
         forms,
-        require("tailwind-scrollbar"),
-        require('tailwindcss-motion')
+        motion,
     ],
-}
+};
