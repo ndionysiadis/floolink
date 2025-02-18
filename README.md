@@ -1,66 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+![FlooLink](http://floo.link/images/floolink.jpg)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🌐 FlooLink — Your Links in Disguise
 
-## About Laravel
+🚀 **FlooLink** is a secure URL encryption tool that **teleports your links** through the magic of encryption. Using **AES-256**, it transforms URLs into protected links, ensuring privacy, security, and expiration-based sharing.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.x-42b883?logo=vue.js)](https://vuejs.org/)
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-ff2d20?logo=laravel)](https://laravel.com)
+[![Inertia.js](https://img.shields.io/badge/Inertia.js-2.x-654ff0?logo=inertia)](https://inertiajs.com/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.x-38b2ac?logo=tailwind-css)](https://tailwindcss.com/)
+[![Maintained](https://img.shields.io/maintenance/yes/2025?logo=github)](https://github.com/ndionysiadis/floolink)
+[![License](https://img.shields.io/github/license/ndionysiadis/floolink?logo=open-source-initiative)](LICENSE)
+[![GitHub Repo stars](https://img.shields.io/github/stars/ndionysiadis/floolink?style=social&logo=github)](https://github.com/ndionysiadis/floolink)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Features
 
-## Learning Laravel
+- 🔒 **AES-256 Encryption** – Securely encrypts links before sharing.
+- ⏳ **Expiration Settings** – Set expiration based on:
+    - ⏺ Default (expires after first click)
+    - ❌ Never expire
+    - ⏱ Custom time (minutes, hours, days)
+- 🎭 **Masked Links** – Hide the original URL.
+- 🗑 **Auto-Delete Expired Links** – Privacy-focused link sharing.
+- 🏗 **Built with VILT Stack** – Vue.js, Inertia.js, Laravel, Tailwind CSS.
+- 🧙 **Inspired by Magic** – Themed after the **Floo Network** from Harry Potter.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠 Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| ⚙️ Technology      | 📝 Description                                    |
+|----------------|----------------------------------------------|
+| 🟢 **Vue.js 3**   | Reactive UI with Composition API           |
+| 🟣 **Inertia.js** | Smooth Laravel + Vue integration           |
+| 🔴 **Laravel 11** | Backend framework handling API & encryption |
+| 🔵 **Tailwind CSS** | Modern styling with utility classes       |
+| 🟡 **VueUse & Headless UI** | Enhanced Vue utilities & accessible UI components |
+| 🔷 **Phosphor Icons** | Beautiful, lightweight icons |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📦 Installation
 
-### Premium Partners
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/yourusername/floolink.git
+cd floolink
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 2️⃣ Install Dependencies
+```sh
+composer install
+npm install
+```
 
-## Contributing
+### 3️⃣ Configure Environment
+Copy the `.env.example` file and update necessary values:
+```sh
+cp .env.example .env
+```
+Generate the application key:
+```sh
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4️⃣ Set Up the Database
+```sh
+php artisan migrate
+```
 
-## Code of Conduct
+### 5️⃣ Run the Application
+For backend:
+```sh
+php artisan serve
+```
+For frontend (Vite):
+```sh
+npm run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## ⚡ Usage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. 🔗 **Paste** a URL in the input field.
+2. ⏳ **Select Expiration** – Default, Never, or Custom.
+3. ✨ Click **"Make Magic"** to generate an encrypted FlooLink.
+4. 📩 **Copy & Share** your encrypted URL safely.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📜 License
+
+This project is **MIT Licensed**. Feel free to use and modify.
+
+---
+
+Created with ❤️ by **[Nicolas Dionysiadis](https://github.com/ndionysiadis)**.
+
