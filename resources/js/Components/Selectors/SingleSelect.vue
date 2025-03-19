@@ -26,7 +26,7 @@ function updateValue(event: Event) {
 
 <template>
     <div
-        class="relative block border rounded-lg border-gray-50/10 w-full max-w-3xl bg-gray-900 text-indigo-50 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500"
+        class="relative block border rounded-lg border-gray-50/10 w-full max-w-3xl bg-gray-900 text-indigo-50 shadow-xs focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500"
     >
         <label :for="props.id" class="sr-only">{{ props.label }}</label>
 
@@ -36,7 +36,7 @@ function updateValue(event: Event) {
             :disabled="props.disabled"
             :value="props.modelValue"
             @change="updateValue"
-            class="peer block w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+            class="peer block w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-hidden focus:ring-0"
         >
             <option value="" disabled selected class="text-gray-400">
                 {{ props.label }}
