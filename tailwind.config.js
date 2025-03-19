@@ -32,7 +32,7 @@ export default {
         },
     },
     plugins: [
-        forms,
-        motion,
+        // forms,
+        // motion,
     ],
 };
