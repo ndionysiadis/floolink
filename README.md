@@ -7,7 +7,7 @@
 ---
 
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.x-42b883?logo=vue.js)](https://vuejs.org/)
-[![Laravel](https://img.shields.io/badge/Laravel-11.x-ff2d20?logo=laravel)](https://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-ff2d20?logo=laravel)](https://laravel.com)
 [![Inertia.js](https://img.shields.io/badge/Inertia.js-2.x-654ff0?logo=inertia)](https://inertiajs.com/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.x-38b2ac?logo=tailwind-css)](https://tailwindcss.com/)
 [![Maintained](https://img.shields.io/maintenance/yes/2025?logo=github)](https://github.com/ndionysiadis/floolink)
@@ -30,12 +30,12 @@
 
 ## 🛠 Tech Stack
 
-| ⚙️ Technology      | 📝 Description                                    |
-|----------------|----------------------------------------------|
-| 🟢 **Vue.js 3**   | Reactive UI with Composition API           |
-| 🟣 **Inertia.js** | Smooth Laravel + Vue integration           |
-| 🔴 **Laravel 11** | Backend framework handling API & encryption |
-| 🔵 **Tailwind CSS** | Modern styling with utility classes       |
+| ⚙️ Technology        | 📝 Description                                    |
+|----------------------|----------------------------------------------|
+| 🟢 **Vue.js**        | Reactive UI with Composition API           |
+| 🟣 **Inertia.js**    | Smooth Laravel + Vue integration           |
+| 🔴 **Laravel**       | Backend framework handling API & encryption |
+| 🔵 **Tailwind CSS**  | Modern styling with utility classes       |
 | 🟡 **VueUse & Headless UI** | Enhanced Vue utilities & accessible UI components |
 | 🔷 **Phosphor Icons** | Beautiful, lightweight icons |
 
