@@ -63,14 +63,14 @@ function handlePointerLeave() {
 <template>
     <div
         ref="refElement"
-        class="container-style rounded-xl border border-gray-50/10 bg-gray-900/10 backdrop-blur-sm p-2 duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] relative isolate transition-transform will-change-transform [aspect-ratio:17/21] [contain:layout_style] [perspective:600px]"
+        class="container-style rounded-xl border border-gray-50/10 bg-gray-900/10 backdrop-blur-xs p-2 duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] relative isolate transition-transform will-change-transform [aspect-ratio:17/21] [contain:layout_style] [perspective:600px]"
         :style="{ width: `${props.width || 320}px`, height: `${props.height || 400}px` }"
         @pointermove="handlePointerMove"
         @pointerenter="handlePointerEnter"
         @pointerleave="handlePointerLeave"
     >
         <div
-            class="rounded-lg border border-gray-50/10 bg-gray-950/20 shadow-sm shadow-neutral-950/50 relative transform-gpu overflow-hidden w-full h-full"
+            class="rounded-lg border border-gray-50/10 bg-gray-950/20 shadow-xs shadow-neutral-950/50 relative transform-gpu overflow-hidden w-full h-full"
         >
             <div
                 class="duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] grid h-full origin-center overflow-hidden rounded-lg transition-transform will-change-transform [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] hover:filter-none hover:[--duration:200ms] hover:[--easing:linear] hover:[--opacity:0.6]"

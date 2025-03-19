@@ -39,7 +39,7 @@
 
         <a href="{{ route('index') }}" aria-label="Create a new link" class="relative group">
             <button class="relative inline-block p-px font-semibold leading-6 text-white bg-gray-900 shadow-2xl cursor-pointer rounded-2xl shadow-emerald-900 transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 hover:shadow-emerald-600">
-                <span class="absolute inset-0 rounded-2xl bg-gradient-to-t from-emerald-400 to-emerald-700 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
+                <span class="absolute inset-0 rounded-2xl bg-linear-to-t from-emerald-400 to-emerald-700 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 <span class="relative z-10 block px-6 py-3 rounded-2xl bg-gray-900">
                     <div class="relative z-10 flex items-center">
                         <span class="transition-all duration-500 group-hover:scale-105 group-hover:text-emerald-300">

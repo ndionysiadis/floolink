@@ -117,13 +117,13 @@ useHead({
 <template>
     <Head :title="title"/>
 
-    <Tyndall streak-color="#fff" class="flex flex-col text-center min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 text-indigo-50">
+    <Tyndall streak-color="#fff" class="flex flex-col text-center min-h-screen bg-linear-to-br from-gray-950 to-gray-800 text-indigo-50">
         <Particles
             :density="500"
             class="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(100%_100%,white,transparent_80%)]"
         />
         <div
-            class="flex flex-col items-center justify-start gap-16 flex-grow">
+            class="flex flex-col items-center justify-start gap-16 grow">
 
             <div
                 class="flex flex-col items-center justify-center mt-16 fill-indigo-50 motion-preset-focus motion-duration-2000 z-10">

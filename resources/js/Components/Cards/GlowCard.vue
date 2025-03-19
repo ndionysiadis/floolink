@@ -32,7 +32,7 @@ const { x, y } = useMouse({ target: spotlightCardRef, type: extractor })
         '--spotlight-color-stops': `${color}, transparent`,
         '--spotlight-size': `${size}px`
       }"
-            class="spotlight-card before:content-[''] before:h-full before:w-full before:absolute before:top-0 before:left-0 relative transform-gpu overflow-hidden rounded-lg border border-gray-50/10 bg-gray-950 shadow-sm shadow-neutral-950/50"
+            class="spotlight-card before:content-[''] before:h-full before:w-full before:absolute before:top-0 before:left-0 relative transform-gpu overflow-hidden rounded-lg border border-gray-50/10 bg-gray-950 shadow-xs shadow-neutral-950/50"
         >
             <slot />
         </div>
