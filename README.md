@@ -22,7 +22,9 @@
     - ❌ Never expire
     - ⏱ Custom time (minutes, hours, days)
 - 🎭 **Masked Links** – Hide the original URL.
+- 📈 **Rate Limiting** – Limits link generation to 30 attempts per IP.
 - 🗑 **Auto-Delete Expired Links** – Privacy-focused link sharing.
+- 🧹 **Scheduled Cleanup** – Hourly command removes expired links automatically.
 - 🏗 **Built with VILT Stack** – Vue.js, Inertia.js, Laravel, Tailwind CSS.
 - 🧙 **Inspired by Magic** – Themed after the **Floo Network** from Harry Potter.
 
@@ -56,10 +58,8 @@ npm install
 ```
 
 ### 3️⃣ Configure Environment
-Copy the `.env.example` file and update necessary values:
-```sh
-cp .env.example .env
-```
+Create a `.env` file (copy `.env.example` if present) and update your database and mail settings.
+
 Generate the application key:
 ```sh
 php artisan key:generate
@@ -78,6 +78,11 @@ php artisan serve
 For frontend (Vite):
 ```sh
 npm run dev
+```
+### 6. Test the Application
+Run the test suite with:
+```sh
+composer test
 ```
 
 ---
