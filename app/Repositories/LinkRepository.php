@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Enums\LinkType;
 use App\Models\Link;
+use App\Repositories\StatsRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -40,7 +41,7 @@ class LinkRepository
                 LinkType::NEVER, LinkType::DEFAULT => null,
             };
 
-            return Link::create([
+            $link = Link::create([
                 'slug' => Str::random(8),
                 'original_url' => $data['original_url'],
                 'encrypted_url' => base64_encode($iv . $encryptedUrl),
@@ -48,6 +49,10 @@ class LinkRepository
                 'expires_at' => $expiresAt,
                 'expiration_type' => $expirationType->value,
             ]);
+
+            StatsRepository::createForLink($link);
+
+            return $link;
         });
     }
 
@@ -84,9 +89,10 @@ class LinkRepository
         return true;
     }
 
-    public static function incrementClick(Link $link): void
+    public static function incrementClick(Link $link)
     {
         $link->increment('clicks');
+        StatsRepository::recordClick($link, request());
     }
     public static function delete(Link $link): bool
     {
