@@ -51,7 +51,7 @@ class LinkRepository
         });
     }
 
-    private static function calculateExpiration(string|int $expirationValue): Carbon
+    private static function calculateExpiration(string|int $expirationValue): ?Carbon
     {
         return match ((string)$expirationValue) {
             '5' => now()->addMinutes(5),
