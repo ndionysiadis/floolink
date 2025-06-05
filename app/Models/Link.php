@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\StatsRepository;
+use App\Models\LinkStatistic;
 
 class Link extends Model
 {
@@ -28,6 +30,16 @@ class Link extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function getSlugHashAttribute(): string
+    {
+        return StatsRepository::hashSlug($this->slug);
+    }
+
+    public function statistic()
+    {
+        return $this->hasOne(LinkStatistic::class, 'slug_hash', 'slug_hash');
+    }
 
     public function getFullUrlAttribute(): string
     {
